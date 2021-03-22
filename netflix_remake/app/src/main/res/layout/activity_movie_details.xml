@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_movie_details"
-            tools:text="lskdfjkjasfkjkslfj kj kdfkjskfjlskfksjafkljsfkjasklfjlks jfkasjflkasjflkjaslkfjlkasflkajsf lskdfjkjasfkjkslfj kj kdfkjskfjlskfksjafkljsfkjasklfjlks jfkasjlskdfjkjasfkjkslfj kj kdfkjskfjlskfksjafkljsfkjasklfjlks jfkasjlskdfjkjasfkjkslfj kj kdfkjskfjlskfksjafkljsfkjasklfjlks jfkasj"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc libero ex, consectetur a erat eu, semper maximus neque. Curabitur sit amet mattis orci. Nulla elementum, tortor at lacinia pellentesque, urna nibh auctor diam, nec ullamcorper sapien velit a tortor. Ut semper libero tellus, nec accumsan orci molestie sed. Vestibulum mollis imperdiet pharetra. Nunc hendrerit suscipit feugiat. Integer magna dui, pulvinar interdum nibh ut, aliquet consectetur augue. Vestibulum auctor dui finibus nisl facilisis, a laoreet quam auctor. "
 
 
             />
