@@ -1,25 +1,22 @@
 package com.example.netflix;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.netflix.modelo.Categoria;
 import com.example.netflix.modelo.Filme;
+import com.example.netflix.util.JSonDownloadTask;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -59,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         categoryAdapter = new CategoryAdapter(categoriaArrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
         recyclerView.setAdapter(categoryAdapter);
+        new JSonDownloadTask(this).execute("https://tiagoaguiar.co/api/netflix/home");
 
 
 

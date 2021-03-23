@@ -2,13 +2,13 @@ package com.example.netflix.modelo;
 
 public class Filme {
 
-    private int coverURL; // Cover é a capa do filme
+    private String coverURL; // Cover é a capa do filme
 
-    public int getCoverURL() {
+    public String getCoverURL() {
         return coverURL;
     }
 
-    public void setCoverURL(int coverURL) {
+    public void setCoverURL(String coverURL) {
         this.coverURL = coverURL;
     }
 }
