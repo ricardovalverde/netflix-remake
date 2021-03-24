@@ -23,12 +23,17 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class JSonDownloadTask extends AsyncTask<String, Void, List<Categoria>> {
+public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
     private final WeakReference<Context> context;
     private ProgressDialog dialog;
+    private CategoryLoader categoryLoader;
 
-    public JSonDownloadTask(Context context) {
+    public CategoryTask(Context context) {
         this.context = new WeakReference<>(context);
+    }
+
+    public void setCategoryLoader(CategoryLoader categoryLoader) {
+        this.setCategoryLoader(categoryLoader);
     }
 
     @Override
@@ -76,6 +81,9 @@ public class JSonDownloadTask extends AsyncTask<String, Void, List<Categoria>> {
     protected void onPostExecute(List<Categoria> categorias) {
         super.onPostExecute(categorias);
         dialog.dismiss();
+        if (categoryLoader != null) {
+            categoryLoader.onResult(categorias);
+        }
     }
 
     private String toString(InputStream inputStream) throws IOException {
@@ -123,6 +131,10 @@ public class JSonDownloadTask extends AsyncTask<String, Void, List<Categoria>> {
 
 
         return categorias;
+    }
+
+    public interface CategoryLoader {
+        void onResult(List<Categoria> categorias);
     }
 
 }
