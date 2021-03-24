@@ -33,7 +33,7 @@ public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
     }
 
     public void setCategoryLoader(CategoryLoader categoryLoader) {
-        this.setCategoryLoader(categoryLoader);
+        this.categoryLoader = categoryLoader;
     }
 
     @Override
@@ -62,6 +62,7 @@ public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
             String jsonAsString = toString(bufferedInputStream);
             List<Categoria> categorias = getCategorias(new JSONObject(jsonAsString));
             bufferedInputStream.close();
+            return categorias;
 
 
         } catch (MalformedURLException e) {
@@ -99,7 +100,9 @@ public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
     }
 
     private List<Categoria> getCategorias(JSONObject jsonObject) throws JSONException {
+
         List<Categoria> categorias = new ArrayList<>();
+
         JSONArray categoriaArray = jsonObject.getJSONArray("category");
 
         for (int i = 0; i < categoriaArray.length(); i++) {
@@ -114,6 +117,7 @@ public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
             Categoria categoria = new Categoria();
             categoria.setNome(titulo);
             categoria.setFilmes(filmeList);
+            categorias.add(categoria);
 
 
             for (int j = 0; j < movieArray.length(); j++) {
@@ -123,13 +127,9 @@ public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
                 filme1.setCoverURL(cover_url);
                 filmeList.add(filme1);
 
-
             }
 
-
         }
-
-
         return categorias;
     }
 

@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         recyclerView = findViewById(R.id.recycler_view_da_mainAC);
 
 
-        List<Categoria> categoriaArrayList = new ArrayList<>();
-        List<Filme> filmes = new ArrayList<>();
+        List<Categoria> categorias = new ArrayList<>();
+        //List<Filme> filmes = new ArrayList<>();
 
 
-        categoryAdapter = new CategoryAdapter(categoriaArrayList);
+        categoryAdapter = new CategoryAdapter(categorias);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(categoryAdapter);
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         categoryAdapter.setCategory(categorias);
         categoryAdapter.notifyDataSetChanged();
     }
+
 
     private static class CategoryHolder extends RecyclerView.ViewHolder {
         TextView textView;

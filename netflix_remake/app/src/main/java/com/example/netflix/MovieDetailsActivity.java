@@ -1,6 +1,5 @@
 package com.example.netflix;
 
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.example.netflix.modelo.Filme;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     private TextView txtSinopse, txtElenco, txtTitulo;
@@ -34,15 +32,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview_similar);
 
         List<Filme> filmes = new ArrayList<>();
-        for (int i = 0; i < 30 ; i++) {
+        for (int i = 0; i < 30; i++) {
             Filme filme = new Filme();
             filmes.add(filme);
         }
 
         recyclerView.setAdapter(new MovieAdapter(filmes));
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-
-
 
 
         Toolbar toolbar = findViewById(R.id.toolbar_details_movie);
@@ -54,17 +50,18 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         txtTitulo.setText("Batman Begins");
         txtSinopse.setText("O jovem Bruce Wayne viaja para o Extremo Oriente, onde recebe treinamento em artes marciais do mestre Henri Ducard, um membro da misteriosa Liga das Sombras. Quando Ducard revela que a verdadeira proposta da Liga é a destruição completa da cidade de Gotham, Wayne retorna à sua cidade com o intuito de livrá-la de criminosos e assassinos. Com a ajuda do mordomo Alfred e do expert Lucius Fox, nasce Batman.");
-        txtElenco.setText(getString(R.string.elenco,"Christian Bale, "+
-                "Cillian Murphy, "+
-                "Gary Oldman, "+
-                "Katie Holmes, "+
-                "Liam Neeson" ));
+        txtElenco.setText(getString(R.string.elenco, "Christian Bale, " +
+                "Cillian Murphy, " +
+                "Gary Oldman, " +
+                "Katie Holmes, " +
+                "Liam Neeson"));
 
 
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+
         public MovieHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_cover);
@@ -72,7 +69,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     }
 
-    private class MovieAdapter extends RecyclerView.Adapter<MovieHolder>{
+    private class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
 
         List<Filme> listfilmes;
 
@@ -83,12 +80,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
         @NonNull
         @Override
         public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new MovieHolder(getLayoutInflater().inflate(R.layout.movie_item_similar,parent, false));
+            return new MovieHolder(getLayoutInflater().inflate(R.layout.movie_item_similar, parent, false));
         }
 
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
-        Filme filme = listfilmes.get(position);
+            Filme filme = listfilmes.get(position);
         }
 
         @Override
@@ -96,10 +93,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
             return listfilmes.size();
         }
     }
-
-
-
-
 
 
 }
