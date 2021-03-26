@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/cover_drawble"
-        android:drawable="@drawable/movie_4" />
-    <item android:id="@+id/shadow_drable">
+    <item android:drawable="@drawable/movie_4" />
+    <item>
         <shape>
             <gradient
                 android:angle="90"

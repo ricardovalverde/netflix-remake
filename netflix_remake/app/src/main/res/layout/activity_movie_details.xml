@@ -39,7 +39,6 @@
         </ImageView>
 
         <ImageView
-            android:id="@+id/btn_play"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:src="@drawable/player_button"

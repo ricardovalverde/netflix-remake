@@ -64,6 +64,16 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         }
     }
 
+    public static class MovieHolder extends RecyclerView.ViewHolder {
+        ImageView imageViewCover;
+
+        public MovieHolder(@NonNull View itemView) {
+            super(itemView);
+            imageViewCover = itemView.findViewById(R.id.image_view_cover);
+        }
+
+    }
+
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryHolder> {
 
 
@@ -102,17 +112,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
 
         }
-    }
-
-
-    public static class MovieHolder extends RecyclerView.ViewHolder {
-        ImageView imageViewCover;
-
-        public MovieHolder(@NonNull View itemView) {
-            super(itemView);
-            imageViewCover = itemView.findViewById(R.id.image_view_cover);
-        }
-
     }
 
     public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
