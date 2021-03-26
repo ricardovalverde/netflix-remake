@@ -110,7 +110,9 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
         public MovieHolder(@NonNull View itemView) {
             super(itemView);
+            imageViewCover = itemView.findViewById(R.id.image_view_cover);
         }
+
     }
 
     public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {

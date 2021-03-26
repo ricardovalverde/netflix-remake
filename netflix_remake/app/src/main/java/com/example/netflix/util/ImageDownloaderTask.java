@@ -49,7 +49,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-
+            
         if (isCancelled()) {
             bitmap = null;
         }
