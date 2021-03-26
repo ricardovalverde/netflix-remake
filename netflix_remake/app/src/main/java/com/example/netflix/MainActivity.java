@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.netflix.modelo.Categoria;
 import com.example.netflix.modelo.Filme;
 import com.example.netflix.util.CategoryTask;
+import com.example.netflix.util.ImageDownloaderTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
 
         List<Categoria> categorias = new ArrayList<>();
-        //List<Filme> filmes = new ArrayList<>();
 
 
         categoryAdapter = new CategoryAdapter(categorias);
@@ -61,15 +61,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
             textView = itemView.findViewById(R.id.textview_category_item);
             recyclerView = itemView.findViewById(R.id.recyclerview_category_item);
 
-        }
-    }
-
-    public static class MovieHolder extends RecyclerView.ViewHolder {
-        ImageView imageViewCover;
-
-        public MovieHolder(@NonNull View itemView) {
-            super(itemView);
-            //imageViewCover = itemView.findViewById(R.id.image_view_cover);
         }
     }
 
@@ -113,6 +104,15 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         }
     }
 
+
+    public static class MovieHolder extends RecyclerView.ViewHolder {
+        ImageView imageViewCover;
+
+        public MovieHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
     public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
 
         private final List<Filme> list_filmes;
@@ -130,8 +130,9 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
+
             Filme filme = list_filmes.get(position);
-            //holder.imageViewCover.setImageResource(filme.getCoverURL());
+            new ImageDownloaderTask(holder.imageViewCover).execute(filme.getCoverURL());
         }
 
         @Override
