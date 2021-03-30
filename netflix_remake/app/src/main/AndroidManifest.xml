@@ -13,6 +13,7 @@
         android:theme="@style/Theme.Netflix">
         <activity android:name=".MovieDetailsActivity">
 
+
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

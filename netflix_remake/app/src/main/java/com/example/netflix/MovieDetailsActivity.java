@@ -1,6 +1,7 @@
 package com.example.netflix;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -61,20 +62,22 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
             int id = extras.getInt("id");
             MovieDetailTask movieDetailTask = new MovieDetailTask(this);
             movieDetailTask.setMovieDetailLoader(this);
-            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/" + id);
+            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/"+id);
 
         }
+
     }
 
     @Override
     public void onResult(MovieDetail movieDetail) {
-        txtTitulo.setText(movieDetail.getFilme().getTitulo());
+        /*txtTitulo.setText(movieDetail.getFilme().getTitulo());
         txtSinopse.setText(movieDetail.getFilme().getDesc());
         txtElenco.setText(movieDetail.getFilme().getElenco());
 
 
         movieAdapter.setListfilmes(movieDetail.getFilmes_similar());
-        movieAdapter.notifyDataSetChanged();
+        movieAdapter.notifyDataSetChanged();*/
+        Log.i("teste", movieDetail.toString());
 
 
     }
