@@ -9,11 +9,13 @@ import android.widget.ImageView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+
 
 public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
+
     private final WeakReference<ImageView> imageViewWeakReference;
 
     public ImageDownloaderTask(ImageView imageView) {
@@ -24,10 +26,10 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(String... params) {
         String url_s = params[0];
-        HttpsURLConnection urlConnection = null;
+        HttpURLConnection urlConnection = null;
         try {
             URL url = new URL(url_s);
-            urlConnection = (HttpsURLConnection) url.openConnection();
+            urlConnection = (HttpURLConnection) url.openConnection();
             int coderesponse = urlConnection.getResponseCode();
             if (coderesponse != 200) return null;
 

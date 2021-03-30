@@ -16,18 +16,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
+public class MovieDetailTask extends AsyncTask <String, Void, MovieDetail> {
 
     private final WeakReference<Context> context;
     private ProgressDialog dialog;
-    private MovieDetailLoader MovieDetailLoader;
+    private MovieDetailLoader movieDetailLoader;
 
 
     public MovieDetailTask(Context context) {
@@ -35,7 +34,7 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
     }
 
     public void setMovieDetailLoader(MovieDetailLoader movieDetailLoader) {
-        this.MovieDetailLoader = movieDetailLoader;
+        this.movieDetailLoader = movieDetailLoader;
     }
 
 
@@ -43,6 +42,7 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
     protected void onPreExecute() {
         super.onPreExecute();
         Context context = this.context.get();
+        if(context != null)
         dialog = ProgressDialog.show(context, "Carregando", "", true);
 
     }
@@ -52,43 +52,46 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
         String url_p = params[0];
         try {
             URL url = new URL(url_p);
+
             HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setReadTimeout(2000);
             urlConnection.setConnectTimeout(2000);
+
             int codeResponse = urlConnection.getResponseCode();
             if (codeResponse > 400) {
                 throw new IOException("Erro na conexão com servidor");
             }
             InputStream inputStream = urlConnection.getInputStream();
+
             BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+
             String jsonAsString = toString(bufferedInputStream);
+
             MovieDetail movieDetail = getMovieDetail(new JSONObject(jsonAsString));
+
             bufferedInputStream.close();
+
             return movieDetail;
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private MovieDetail getMovieDetail(JSONObject jsonObject) throws JSONException {
+    private MovieDetail getMovieDetail(JSONObject json) throws JSONException {
 
-        int id = jsonObject.getInt("id");
-        String titulo = jsonObject.getString("title");
-        String elenco = jsonObject.getString("cast");
-        String desc = jsonObject.getString("desc");
-        String cover = jsonObject.getString("cover_url");
+        int id = json.getInt("id");
+        String titulo = json.getString("title");
+        String elenco = json.getString("cast");
+        String desc = json.getString("desc");
+        String cover = json.getString("cover_url");
 
         List<Filme> filmes = new ArrayList<>();
-        JSONArray filmes_similar = jsonObject.getJSONArray("movie");
-        for (int i = 0; i < filmes_similar.length(); i++) {
+        JSONArray filmesArray = json.getJSONArray("movie");
+        for (int i = 0; i < filmesArray.length(); i++) {
 
-            JSONObject movie = filmes_similar.getJSONObject(i);
+            JSONObject movie = filmesArray.getJSONObject(i);
             String cover_url = movie.getString("cover_url");
             int idSimilar = movie.getInt("id");
 
@@ -98,8 +101,9 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
             filmes.add(similiar);
         }
         Filme filme = new Filme();
-        filme.setTitulo(titulo);
+        filme.setId(id);
         filme.setCoverURL(cover);
+        filme.setTitulo(titulo);
         filme.setDesc(desc);
         filme.setElenco(elenco);
         return new MovieDetail(filme, filmes);
@@ -111,7 +115,9 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
     protected void onPostExecute(MovieDetail movieDetail) {
         super.onPostExecute(movieDetail);
         dialog.dismiss();
-        if (MovieDetailLoader != null) MovieDetailLoader.onResult(movieDetail);
+        if (movieDetailLoader != null){
+            movieDetailLoader.onResult(movieDetail);
+        }
     }
 
     private String toString(InputStream inputStream) throws IOException {
