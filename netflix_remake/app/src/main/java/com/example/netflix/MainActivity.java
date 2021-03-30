@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         @Override
         public void onClick(int position) {
             Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-            intent.putExtra("Id", list_filmes.get(position).getId());
+            intent.putExtra("id", list_filmes.get(position).getId());
             startActivity(intent);
 
         }

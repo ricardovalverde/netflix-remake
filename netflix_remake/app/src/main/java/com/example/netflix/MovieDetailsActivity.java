@@ -1,7 +1,6 @@
 package com.example.netflix;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.netflix.modelo.Filme;
 import com.example.netflix.modelo.MovieDetail;
+import com.example.netflix.util.ImageDownloaderTask;
 import com.example.netflix.util.MovieDetailTask;
 
 import java.util.ArrayList;
@@ -23,52 +23,52 @@ import java.util.List;
 public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailTask.MovieDetailLoader {
     private TextView txtSinopse, txtElenco, txtTitulo;
     private RecyclerView recyclerView;
+    private MovieAdapter movieAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+        Toolbar toolbar = findViewById(R.id.toolbar_details_movie);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+
+        }
         txtElenco = findViewById(R.id.textview_elenco);
         txtSinopse = findViewById(R.id.textview_descricao);
         txtTitulo = findViewById(R.id.textview_titulofilme);
         recyclerView = findViewById(R.id.recyclerview_similar);
 
         List<Filme> filmes = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            Filme filme = new Filme();
-            filmes.add(filme);
-        }
 
-        recyclerView.setAdapter(new MovieAdapter(filmes));
+        movieAdapter = new MovieAdapter(filmes);
+        recyclerView.setAdapter(movieAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-
-
-        Toolbar toolbar = findViewById(R.id.toolbar_details_movie);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
-        }
-
-        txtElenco.setText("");
-        txtTitulo.setText("");
-        txtSinopse.setText("");
-
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             int id = extras.getInt("id");
             MovieDetailTask movieDetailTask = new MovieDetailTask(this);
             movieDetailTask.setMovieDetailLoader(this);
-            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/1");
+            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/" + id);
 
         }
     }
 
     @Override
     public void onResult(MovieDetail movieDetail) {
-        Log.i("Teste", movieDetail.toString());
+        txtTitulo.setText(movieDetail.getFilme().getTitulo());
+        txtSinopse.setText(movieDetail.getFilme().getDesc());
+        txtElenco.setText(movieDetail.getFilme().getElenco());
+        movieAdapter.setListfilmes(movieDetail.getFilmes_similar());
+        movieAdapter.notifyDataSetChanged();
+
+
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
@@ -89,6 +89,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
             this.listfilmes = listfilmes;
         }
 
+        public void setListfilmes(List<Filme> listfilmes) {
+            this.listfilmes.clear();
+            this.listfilmes.addAll(listfilmes);
+
+        }
+
         @NonNull
         @Override
         public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -98,6 +104,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
             Filme filme = listfilmes.get(position);
+            new ImageDownloaderTask(holder.imageView).execute(filme.getCoverURL());
         }
 
         @Override
