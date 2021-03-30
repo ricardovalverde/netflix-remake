@@ -1,6 +1,7 @@
 package com.example.netflix;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,11 +14,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.netflix.modelo.Filme;
+import com.example.netflix.modelo.MovieDetail;
+import com.example.netflix.util.MovieDetailTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailsActivity extends AppCompatActivity {
+public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailTask.MovieDetailLoader {
     private TextView txtSinopse, txtElenco, txtTitulo;
     private RecyclerView recyclerView;
 
@@ -48,15 +51,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
         }
 
-        txtTitulo.setText("Batman Begins");
-        txtSinopse.setText("O jovem Bruce Wayne viaja para o Extremo Oriente, onde recebe treinamento em artes marciais do mestre Henri Ducard, um membro da misteriosa Liga das Sombras. Quando Ducard revela que a verdadeira proposta da Liga é a destruição completa da cidade de Gotham, Wayne retorna à sua cidade com o intuito de livrá-la de criminosos e assassinos. Com a ajuda do mordomo Alfred e do expert Lucius Fox, nasce Batman.");
-        txtElenco.setText(getString(R.string.elenco, "Christian Bale, " +
-                "Cillian Murphy, " +
-                "Gary Oldman, " +
-                "Katie Holmes, " +
-                "Liam Neeson"));
+        txtElenco.setText("");
+        txtTitulo.setText("");
+        txtSinopse.setText("");
 
+        Bundle extras = getIntent().getExtras();
 
+        if (extras != null) {
+            int id = extras.getInt("id");
+            MovieDetailTask movieDetailTask = new MovieDetailTask(this);
+            movieDetailTask.setMovieDetailLoader(this);
+            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/1");
+
+        }
+    }
+
+    @Override
+    public void onResult(MovieDetail movieDetail) {
+        Log.i("Teste", movieDetail.toString());
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {

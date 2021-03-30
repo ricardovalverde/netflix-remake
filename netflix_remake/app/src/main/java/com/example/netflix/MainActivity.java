@@ -1,5 +1,6 @@
 package com.example.netflix;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,15 +65,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         }
     }
 
-    public static class MovieHolder extends RecyclerView.ViewHolder {
-        ImageView imageViewCover;
-
-        public MovieHolder(@NonNull View itemView) {
-            super(itemView);
-            imageViewCover = itemView.findViewById(R.id.image_view_cover);
-        }
-
-    }
 
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryHolder> {
 
@@ -114,7 +106,28 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         }
     }
 
-    public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
+
+    public interface onItemClickListener {
+        void onClick(int position);
+    }
+
+    public static class MovieHolder extends RecyclerView.ViewHolder {
+        ImageView imageViewCover;
+
+        public MovieHolder(@NonNull View itemView, final onItemClickListener onItemClickListener) {
+            super(itemView);
+            imageViewCover = itemView.findViewById(R.id.image_view_cover);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onClick(getAdapterPosition());
+                }
+            });
+        }
+
+    }
+
+    public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> implements onItemClickListener {
 
         private final List<Filme> list_filmes;
 
@@ -126,7 +139,8 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         @NonNull
         @Override
         public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new MovieHolder(getLayoutInflater().inflate(R.layout.movie_item, parent, false));
+            View view = (getLayoutInflater().inflate(R.layout.movie_item, parent, false));
+            return new MovieHolder(view, this);
         }
 
         @Override
@@ -139,6 +153,14 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         @Override
         public int getItemCount() {
             return list_filmes.size();
+        }
+
+        @Override
+        public void onClick(int position) {
+            Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+            intent.putExtra("Id", list_filmes.get(position).getId());
+            startActivity(intent);
+
         }
     }
 

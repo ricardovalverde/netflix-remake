@@ -25,17 +25,17 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
 
-    private WeakReference<Context> context;
+    private final WeakReference<Context> context;
     private ProgressDialog dialog;
     private MovieDetailLoader MovieDetailLoader;
 
 
     public MovieDetailTask(Context context) {
-        this.context = new WeakReference<Context>(context);
+        this.context = new WeakReference<>(context);
     }
 
-    public void setMovieDetailLoader(MovieDetailTask.MovieDetailLoader movieDetailLoader) {
-        MovieDetailLoader = movieDetailLoader;
+    public void setMovieDetailLoader(MovieDetailLoader movieDetailLoader) {
+        this.MovieDetailLoader = movieDetailLoader;
     }
 
 
@@ -60,11 +60,11 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
                 throw new IOException("Erro na conexão com servidor");
             }
             InputStream inputStream = urlConnection.getInputStream();
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(urlConnection.getInputStream());
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
             String jsonAsString = toString(bufferedInputStream);
-            List<MovieDetail> movieDetailList = getMovieDetail(new JSONObject(jsonAsString));
+            MovieDetail movieDetail = getMovieDetail(new JSONObject(jsonAsString));
             bufferedInputStream.close();
-            return movieDetailList;
+            return movieDetail;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -90,10 +90,10 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
 
             JSONObject movie = filmes_similar.getJSONObject(i);
             String cover_url = movie.getString("cover_url");
-            int id = movie.getInt("id");
+            int idSimilar = movie.getInt("id");
 
             Filme similiar = new Filme();
-            similiar.setId(id);
+            similiar.setId(idSimilar);
             similiar.setCoverURL(cover_url);
             filmes.add(similiar);
         }
