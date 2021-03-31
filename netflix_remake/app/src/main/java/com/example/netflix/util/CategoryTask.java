@@ -123,7 +123,9 @@ public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
             for (int j = 0; j < movieArray.length(); j++) {
                 JSONObject filme = movieArray.getJSONObject(j);
                 String cover_url = filme.getString("cover_url");
+                int id = filme.getInt("id");
                 Filme filme1 = new Filme();
+                filme1.setId(id);
                 filme1.setCoverURL(cover_url);
                 filmeList.add(filme1);
 
