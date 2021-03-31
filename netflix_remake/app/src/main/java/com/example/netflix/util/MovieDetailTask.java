@@ -82,32 +82,33 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
     private MovieDetail getMovieDetail(JSONObject json) throws JSONException {
 
         int id = json.getInt("id");
-        String titulo = json.getString("title");
+        String title = json.getString("title");
         String desc = json.getString("desc");
-        String elenco = json.getString("cast");
+        String cast = json.getString("cast");
         String coverUrl = json.getString("cover_url");
 
-        List<Filme> filmes = new ArrayList<>();
-        JSONArray filmesArray = json.getJSONArray("movie");
-        for (int i = 0; i < filmesArray.length(); i++) {
-
-            JSONObject movie = filmesArray.getJSONObject(i);
+        List<Filme> movies = new ArrayList<>();
+        JSONArray movieArray = json.getJSONArray("movie");
+        for (int i = 0; i < movieArray.length(); i++) {
+            JSONObject movie = movieArray.getJSONObject(i);
             String c = movie.getString("cover_url");
             int idSimilar = movie.getInt("id");
 
-            Filme similiar = new Filme();
-            similiar.setId(idSimilar);
-            similiar.setCoverURL(c);
-            filmes.add(similiar);
-        }
-        Filme filme = new Filme();
-        filme.setId(id);
-        filme.setCoverURL(coverUrl);
-        filme.setTitulo(titulo);
-        filme.setDesc(desc);
-        filme.setElenco(elenco);
-        return new MovieDetail(filme, filmes);
+            Filme similar = new Filme();
+            similar.setId(idSimilar);
+            similar.setCoverURL(c);
 
+            movies.add(similar);
+        }
+
+        Filme movie = new Filme();
+        movie.setId(id);
+        movie.setCoverURL(coverUrl);
+        movie.setTitulo(title);
+        movie.setDesc(desc);
+        movie.setElenco(cast);
+
+        return new MovieDetail(movie, movies);
     }
 
 

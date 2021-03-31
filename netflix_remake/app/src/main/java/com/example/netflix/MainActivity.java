@@ -76,12 +76,8 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         public MovieHolder(@NonNull View itemView, final OnItemClickListener onItemClickListener) {
             super(itemView);
             imageViewCover = itemView.findViewById(R.id.image_view_cover);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemClickListener.onClick(getAdapterPosition());
-                }
-            });
+            itemView.setOnClickListener(v -> onItemClickListener.onClick(getAdapterPosition()));
+
         }
 
     }
@@ -137,10 +133,11 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
         @Override
         public void onClick(int position) {
-            Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-            intent.putExtra("id", filmes.get(position).getId());
-            startActivity(intent);
-
+            if (filmes.get(position).getId() <= 3) {
+                Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+                intent.putExtra("id", filmes.get(position).getId());
+                startActivity(intent);
+            }
         }
 
         @NonNull

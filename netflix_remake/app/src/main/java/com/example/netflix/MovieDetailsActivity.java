@@ -54,14 +54,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
 
         Bundle extras = getIntent().getExtras();
-
         if (extras != null) {
             int id = extras.getInt("id");
             MovieDetailTask movieDetailTask = new MovieDetailTask(this);
             movieDetailTask.setMovieDetailLoader(this);
-            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/2");
-
+            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/" + id);
         }
+
 
     }
 
