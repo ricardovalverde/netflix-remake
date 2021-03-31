@@ -20,7 +20,7 @@ import com.example.netflix.util.MovieDetailTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailTask.MovieDetailLoader {
+public class MovieActivity extends AppCompatActivity implements MovieDetailTask.MovieDetailLoader {
     private TextView txtDesc, txtElenco, txtTitulo;
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
