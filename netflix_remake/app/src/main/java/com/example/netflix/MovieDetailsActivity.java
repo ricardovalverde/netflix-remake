@@ -1,7 +1,6 @@
 package com.example.netflix;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,10 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailTask.MovieDetailLoader {
-    private TextView txtSinopse, txtElenco, txtTitulo;
+    private TextView txtDesc, txtElenco, txtTitulo;
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
-    private ImageView imagecover;
 
 
     @Override
@@ -34,9 +32,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         setContentView(R.layout.activity_movie_details);
 
         txtElenco = findViewById(R.id.textview_elenco);
-        txtSinopse = findViewById(R.id.textview_descricao);
+        txtDesc = findViewById(R.id.textview_descricao);
         txtTitulo = findViewById(R.id.textview_titulofilme);
-        imagecover = findViewById(R.id.image_view_cover);
         recyclerView = findViewById(R.id.recyclerview_similar);
 
         Toolbar toolbar = findViewById(R.id.toolbar_details_movie);
@@ -62,7 +59,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
             int id = extras.getInt("id");
             MovieDetailTask movieDetailTask = new MovieDetailTask(this);
             movieDetailTask.setMovieDetailLoader(this);
-            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/"+id);
+            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/1");
 
         }
 
@@ -70,20 +67,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void onResult(MovieDetail movieDetail) {
-        /*txtTitulo.setText(movieDetail.getFilme().getTitulo());
-        txtSinopse.setText(movieDetail.getFilme().getDesc());
+        txtTitulo.setText(movieDetail.getFilme().getTitulo());
+        txtDesc.setText(movieDetail.getFilme().getDesc());
         txtElenco.setText(movieDetail.getFilme().getElenco());
 
 
-        movieAdapter.setListfilmes(movieDetail.getFilmes_similar());
-        movieAdapter.notifyDataSetChanged();*/
-        Log.i("teste", movieDetail.toString());
+        movieAdapter.setFilmes(movieDetail.getFilmes_similar());
+        movieAdapter.notifyDataSetChanged();
 
 
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
-      final ImageView imageViewCover;
+        final ImageView imageViewCover;
 
         public MovieHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,15 +90,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     private class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
 
-         private List<Filme> listfilmes;
+        private List<Filme> filmes;
 
-        public MovieAdapter(List<Filme> listfilmes) {
-            this.listfilmes = listfilmes;
+        public MovieAdapter(List<Filme> filmes) {
+            this.filmes = filmes;
         }
 
-        void setListfilmes(List<Filme> listfilmes) {
-            this.listfilmes.clear();
-            this.listfilmes.addAll(listfilmes);
+        public void setFilmes(List<Filme> filmes) {
+            this.filmes.clear();
+            this.filmes.addAll(filmes);
 
         }
 
@@ -114,13 +110,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
-            Filme filme = listfilmes.get(position);
+            Filme filme = filmes.get(position);
             new ImageDownloaderTask(holder.imageViewCover).execute(filme.getCoverURL());
         }
 
         @Override
         public int getItemCount() {
-            return listfilmes.size();
+            return filmes.size();
         }
     }
 

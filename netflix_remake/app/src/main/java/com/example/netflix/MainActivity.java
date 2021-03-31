@@ -66,10 +66,30 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
     }
 
 
+    public interface OnItemClickListener {
+        void onClick(int position);
+    }
+
+    public static class MovieHolder extends RecyclerView.ViewHolder {
+        ImageView imageViewCover;
+
+        public MovieHolder(@NonNull View itemView, final OnItemClickListener onItemClickListener) {
+            super(itemView);
+            imageViewCover = itemView.findViewById(R.id.image_view_cover);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onClick(getAdapterPosition());
+                }
+            });
+        }
+
+    }
+
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryHolder> {
 
 
-        private List<Categoria> categorias;
+        private final List<Categoria> categorias;
 
 
         public CategoryAdapter(List<Categoria> categorias) {
@@ -106,34 +126,19 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         }
     }
 
+    public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> implements OnItemClickListener {
 
-    public interface onItemClickListener {
-        void onClick(int position);
-    }
+        private final List<Filme> filmes;
 
-    public static class MovieHolder extends RecyclerView.ViewHolder {
-        ImageView imageViewCover;
 
-        public MovieHolder(@NonNull View itemView, final onItemClickListener onItemClickListener) {
-            super(itemView);
-            imageViewCover = itemView.findViewById(R.id.image_view_cover);
-            itemView.setOnClickListener(view -> onItemClickListener.onClick(getAdapterPosition()));
+        public MovieAdapter(List<Filme> filmes) {
+            this.filmes = filmes;
         }
 
-    }
-
-    public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> implements onItemClickListener {
-
-        private final List<Filme> list_filmes;
-
-
-        public MovieAdapter(List<Filme> list_filmes) {
-            this.list_filmes = list_filmes;
-        }
         @Override
         public void onClick(int position) {
             Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-            intent.putExtra("id", list_filmes.get(position).getId());
+            intent.putExtra("id", filmes.get(position).getId());
             startActivity(intent);
 
         }
@@ -141,20 +146,20 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         @NonNull
         @Override
         public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = (getLayoutInflater().inflate(R.layout.movie_item, parent, false));
+            View view = getLayoutInflater().inflate(R.layout.movie_item, parent, false);
             return new MovieHolder(view, this);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
 
-            Filme filme = list_filmes.get(position);
+            Filme filme = filmes.get(position);
             new ImageDownloaderTask(holder.imageViewCover).execute(filme.getCoverURL());
         }
 
         @Override
         public int getItemCount() {
-            return list_filmes.size();
+            return filmes.size();
         }
 
 

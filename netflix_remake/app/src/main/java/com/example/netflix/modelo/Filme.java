@@ -4,7 +4,7 @@ public class Filme {
     private int id;
 
 
-    private String coverURL, titulo, elenco, desc; // Cover é a capa do filme
+    private String coverURL, titulo, desc, elenco; // Cover é a capa do filme
 
     public int getId() {
         return id;

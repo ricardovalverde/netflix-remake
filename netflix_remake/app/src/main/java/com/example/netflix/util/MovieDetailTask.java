@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MovieDetailTask extends AsyncTask <String, Void, MovieDetail> {
+public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
 
     private final WeakReference<Context> context;
     private ProgressDialog dialog;
@@ -51,9 +51,9 @@ public class MovieDetailTask extends AsyncTask <String, Void, MovieDetail> {
     protected MovieDetail doInBackground(String... params) {
         String url_p = params[0];
         try {
-            URL url = new URL(url_p);
+            URL requestUrl = new URL(url_p);
 
-            HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+            HttpsURLConnection urlConnection = (HttpsURLConnection) requestUrl.openConnection();
             urlConnection.setReadTimeout(2000);
             urlConnection.setConnectTimeout(2000);
 
@@ -83,26 +83,26 @@ public class MovieDetailTask extends AsyncTask <String, Void, MovieDetail> {
 
         int id = json.getInt("id");
         String titulo = json.getString("title");
-        String elenco = json.getString("cast");
         String desc = json.getString("desc");
-        String cover = json.getString("cover_url");
+        String elenco = json.getString("cast");
+        String coverUrl = json.getString("cover_url");
 
         List<Filme> filmes = new ArrayList<>();
         JSONArray filmesArray = json.getJSONArray("movie");
         for (int i = 0; i < filmesArray.length(); i++) {
 
             JSONObject movie = filmesArray.getJSONObject(i);
-            String cover_url = movie.getString("cover_url");
+            String c = movie.getString("cover_url");
             int idSimilar = movie.getInt("id");
 
             Filme similiar = new Filme();
             similiar.setId(idSimilar);
-            similiar.setCoverURL(cover_url);
+            similiar.setCoverURL(c);
             filmes.add(similiar);
         }
         Filme filme = new Filme();
         filme.setId(id);
-        filme.setCoverURL(cover);
+        filme.setCoverURL(coverUrl);
         filme.setTitulo(titulo);
         filme.setDesc(desc);
         filme.setElenco(elenco);
