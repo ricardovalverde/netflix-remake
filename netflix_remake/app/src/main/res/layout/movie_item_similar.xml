@@ -7,6 +7,7 @@
     tools:showIn="@layout/activity_movie_details">
 
     <ImageView
+        android:id="@+id/image_view_cover"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"

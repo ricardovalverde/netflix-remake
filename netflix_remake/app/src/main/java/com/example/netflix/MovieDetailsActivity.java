@@ -59,7 +59,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
             int id = extras.getInt("id");
             MovieDetailTask movieDetailTask = new MovieDetailTask(this);
             movieDetailTask.setMovieDetailLoader(this);
-            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/1");
+            movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/2");
 
         }
 
