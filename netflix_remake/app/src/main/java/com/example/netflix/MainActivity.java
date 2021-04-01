@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
     }
 
 
+    public interface OnItemClickListener {
+        void onClick(int position);
+    }
+
     private static class CategoryHolder extends RecyclerView.ViewHolder {
         TextView textView;
         RecyclerView recyclerView;
@@ -63,11 +67,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
             recyclerView = itemView.findViewById(R.id.recyclerview_category_item);
 
         }
-    }
-
-
-    public interface OnItemClickListener {
-        void onClick(int position);
     }
 
     public static class MovieHolder extends RecyclerView.ViewHolder {

@@ -58,7 +58,7 @@ public class CategoryTask extends AsyncTask<String, Void, List<Categoria>> {
 
 
             InputStream inputStream = urlConnection.getInputStream();
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(urlConnection.getInputStream());
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
             String jsonAsString = toString(bufferedInputStream);
             List<Categoria> categorias = getCategorias(new JSONObject(jsonAsString));
             bufferedInputStream.close();

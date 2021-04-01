@@ -12,18 +12,6 @@
         android:background="@color/black"
         tools:context=".MovieActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_details_movie"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </androidx.appcompat.widget.Toolbar>
 
         <ImageView
             android:id="@+id/img_movie_details"
@@ -34,9 +22,18 @@
             app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </ImageView>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_details_movie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:layout_width="52dp"
@@ -45,9 +42,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/img_movie_details"
             app:layout_constraintEnd_toEndOf="@+id/img_movie_details"
             app:layout_constraintStart_toStartOf="@+id/img_movie_details"
-            app:layout_constraintTop_toTopOf="@+id/img_movie_details">
+            app:layout_constraintTop_toTopOf="@+id/img_movie_details" />
 
-        </ImageView>
 
         <TextView
             android:id="@+id/textview_titulofilme"
@@ -60,10 +56,8 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/img_movie_details"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="TextView">
+            tools:text="TextView" />
 
-
-        </TextView>
 
         <TextView
             android:id="@+id/textview_descricao"
@@ -79,11 +73,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_movie_details"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc libero ex, consectetur a erat eu, semper maximus neque. Curabitur sit amet mattis orci. Nulla elementum, tortor at lacinia pellentesque, urna nibh auctor diam, nec ullamcorper sapien velit a tortor. Ut semper libero tellus, nec accumsan orci molestie sed. Vestibulum mollis imperdiet pharetra. Nunc hendrerit suscipit feugiat. Integer magna dui, pulvinar interdum nibh ut, aliquet consectetur augue. Vestibulum auctor dui finibus nisl facilisis, a laoreet quam auctor. "
-
-
-            />
+            app:layout_constraintTop_toBottomOf="@id/img_movie_details" />
 
         <TextView
             android:id="@+id/textview_elenco"
@@ -114,10 +104,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textview_elenco"
-
-
-            />
+            app:layout_constraintTop_toBottomOf="@id/textview_elenco" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_similar"

@@ -42,8 +42,8 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
     protected void onPreExecute() {
         super.onPreExecute();
         Context context = this.context.get();
-        if(context != null)
-        dialog = ProgressDialog.show(context, "Carregando", "", true);
+        if (context != null)
+            dialog = ProgressDialog.show(context, "Carregando", "", true);
 
     }
 
@@ -116,7 +116,7 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
     protected void onPostExecute(MovieDetail movieDetail) {
         super.onPostExecute(movieDetail);
         dialog.dismiss();
-        if (movieDetailLoader != null){
+        if (movieDetailLoader != null) {
             movieDetailLoader.onResult(movieDetail);
         }
     }

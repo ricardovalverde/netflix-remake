@@ -1,6 +1,7 @@
 package com.example.netflix;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
     private TextView txtDesc, txtElenco, txtTitulo;
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
+    private ImageView imgCover;
 
 
     @Override
@@ -35,6 +37,7 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
         txtDesc = findViewById(R.id.textview_descricao);
         txtTitulo = findViewById(R.id.textview_titulofilme);
         recyclerView = findViewById(R.id.recyclerview_similar);
+        imgCover = findViewById(R.id.img_movie_details);
 
         Toolbar toolbar = findViewById(R.id.toolbar_details_movie);
         setSupportActionBar(toolbar);
@@ -65,11 +68,22 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onResult(MovieDetail movieDetail) {
+
         txtTitulo.setText(movieDetail.getFilme().getTitulo());
         txtDesc.setText(movieDetail.getFilme().getDesc());
         txtElenco.setText(movieDetail.getFilme().getElenco());
 
+        ImageDownloaderTask imageDownloaderTask = new ImageDownloaderTask(imgCover);
+        imageDownloaderTask.setShadows(true);
+        imageDownloaderTask.execute(movieDetail.getFilme().getCoverURL());
 
         movieAdapter.setFilmes(movieDetail.getFilmes_similar());
         movieAdapter.notifyDataSetChanged();
@@ -89,7 +103,7 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
 
     private class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
 
-        private List<Filme> filmes;
+        private final List<Filme> filmes;
 
         public MovieAdapter(List<Filme> filmes) {
             this.filmes = filmes;
