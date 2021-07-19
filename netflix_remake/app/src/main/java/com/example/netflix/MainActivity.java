@@ -21,18 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoryTask.CategoryLoader {
-    RecyclerView recyclerView;
-    CategoryAdapter categoryAdapter;
+
+    private RecyclerView recyclerView;
+    private CategoryAdapter categoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         recyclerView = findViewById(R.id.recycler_view_da_mainAC);
 
-
         List<Categoria> categorias = new ArrayList<>();
-
 
         categoryAdapter = new CategoryAdapter(categorias);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         CategoryTask categoryTask = new CategoryTask(this);
         categoryTask.setCategoryLoader(this);
         categoryTask.execute("https://tiagoaguiar.co/api/netflix/home");
-
-
     }
 
 
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
             super(itemView);
             textView = itemView.findViewById(R.id.textview_category_item);
             recyclerView = itemView.findViewById(R.id.recyclerview_category_item);
-
         }
     }
 
@@ -76,20 +73,15 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
             super(itemView);
             imageViewCover = itemView.findViewById(R.id.image_view_cover);
             itemView.setOnClickListener(v -> onItemClickListener.onClick(getAdapterPosition()));
-
         }
-
     }
 
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryHolder> {
 
-
         private final List<Categoria> categorias;
-
 
         public CategoryAdapter(List<Categoria> categorias) {
             this.categorias = categorias;
-
         }
 
         @NonNull
@@ -105,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
             holder.textView.setText(categoria.getNome());
             holder.recyclerView.setAdapter(new MovieAdapter(categoria.getFilmes()));
             holder.recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), RecyclerView.HORIZONTAL, false));
-
         }
 
         @Override
@@ -116,15 +107,12 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         void setCategory(List<Categoria> categorias) {
             this.categorias.clear();
             this.categorias.addAll(categorias);
-
-
         }
     }
 
     public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> implements OnItemClickListener {
 
         private final List<Filme> filmes;
-
 
         public MovieAdapter(List<Filme> filmes) {
             this.filmes = filmes;
@@ -157,9 +145,5 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         public int getItemCount() {
             return filmes.size();
         }
-
-
     }
-
-
 }

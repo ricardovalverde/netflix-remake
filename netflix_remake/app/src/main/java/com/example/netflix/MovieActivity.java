@@ -33,12 +33,6 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        txtElenco = findViewById(R.id.textview_elenco);
-        txtDesc = findViewById(R.id.textview_descricao);
-        txtTitulo = findViewById(R.id.textview_titulofilme);
-        recyclerView = findViewById(R.id.recyclerview_similar);
-        imgCover = findViewById(R.id.img_movie_details);
-
         Toolbar toolbar = findViewById(R.id.toolbar_details_movie);
         setSupportActionBar(toolbar);
 
@@ -46,8 +40,15 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
             getSupportActionBar().setTitle(null);
-
         }
+
+        txtElenco = findViewById(R.id.textview_elenco);
+        txtDesc = findViewById(R.id.textview_descricao);
+        txtTitulo = findViewById(R.id.textview_titulofilme);
+        recyclerView = findViewById(R.id.recyclerview_similar);
+        imgCover = findViewById(R.id.img_movie_details);
+
+
         List<Filme> filmes = new ArrayList<>();
 
         movieAdapter = new MovieAdapter(filmes);
@@ -63,8 +64,6 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
             movieDetailTask.setMovieDetailLoader(this);
             movieDetailTask.execute("https://tiagoaguiar.co/api/netflix/" + id);
         }
-
-
     }
 
     @Override
@@ -87,8 +86,6 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
 
         movieAdapter.setFilmes(movieDetail.getFilmes_similar());
         movieAdapter.notifyDataSetChanged();
-
-
     }
 
     private static class MovieHolder extends RecyclerView.ViewHolder {
@@ -98,7 +95,6 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
             super(itemView);
             imageViewCover = itemView.findViewById(R.id.image_view_cover);
         }
-
     }
 
     private class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
@@ -112,7 +108,6 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
         public void setFilmes(List<Filme> filmes) {
             this.filmes.clear();
             this.filmes.addAll(filmes);
-
         }
 
         @NonNull
@@ -132,7 +127,5 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
             return filmes.size();
         }
     }
-
-
 }
 
