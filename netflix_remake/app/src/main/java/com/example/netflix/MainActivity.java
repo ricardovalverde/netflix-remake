@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+
 
         recyclerView = findViewById(R.id.recycler_view_da_mainAC);
 

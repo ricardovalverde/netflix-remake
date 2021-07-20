@@ -32,9 +32,10 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.black));
 
-        Toolbar toolbar = findViewById(R.id.toolbar_details_movie);
-        setSupportActionBar(toolbar);
+
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -47,6 +48,7 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
         txtTitulo = findViewById(R.id.textview_titulofilme);
         recyclerView = findViewById(R.id.recyclerview_similar);
         imgCover = findViewById(R.id.img_movie_details);
+
 
 
         List<Filme> filmes = new ArrayList<>();
