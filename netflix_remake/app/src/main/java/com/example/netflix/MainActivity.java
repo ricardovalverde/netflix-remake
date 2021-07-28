@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.netflix.modelo.Categoria;
-import com.example.netflix.modelo.Filme;
+import com.example.netflix.model.Category;
+import com.example.netflix.model.Movie;
 import com.example.netflix.util.CategoryTask;
 import com.example.netflix.util.ImageDownloaderTask;
 
@@ -31,12 +31,11 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         setContentView(R.layout.activity_main);
         getWindow().setStatusBarColor(getResources().getColor(R.color.black));
 
-
         recyclerView = findViewById(R.id.recycler_view_da_mainAC);
 
-        List<Categoria> categorias = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
 
-        categoryAdapter = new CategoryAdapter(categorias);
+        categoryAdapter = new CategoryAdapter(categories);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(categoryAdapter);
 
@@ -47,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
 
     @Override
-    public void onResult(List<Categoria> categorias) {
-        categoryAdapter.setCategory(categorias);
+    public void onResult(List<Category> categories) {
+        categoryAdapter.setCategory(categories);
         categoryAdapter.notifyDataSetChanged();
     }
 
@@ -80,10 +79,10 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
     private class CategoryAdapter extends RecyclerView.Adapter<CategoryHolder> {
 
-        private final List<Categoria> categorias;
+        private final List<Category> categories;
 
-        public CategoryAdapter(List<Categoria> categorias) {
-            this.categorias = categorias;
+        public CategoryAdapter(List<Category> categories) {
+            this.categories = categories;
         }
 
         @NonNull
@@ -94,37 +93,37 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
 
         @Override
         public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
-            Categoria categoria = categorias.get(position);
+            Category category = categories.get(position);
 
-            holder.textView.setText(categoria.getNome());
-            holder.recyclerView.setAdapter(new MovieAdapter(categoria.getFilmes()));
+            holder.textView.setText(category.getName());
+            holder.recyclerView.setAdapter(new MovieAdapter(category.getFilms()));
             holder.recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), RecyclerView.HORIZONTAL, false));
         }
 
         @Override
         public int getItemCount() {
-            return categorias.size();
+            return categories.size();
         }
 
-        void setCategory(List<Categoria> categorias) {
-            this.categorias.clear();
-            this.categorias.addAll(categorias);
+        void setCategory(List<Category> categories) {
+            this.categories.clear();
+            this.categories.addAll(categories);
         }
     }
 
     public class MovieAdapter extends RecyclerView.Adapter<MovieHolder> implements OnItemClickListener {
 
-        private final List<Filme> filmes;
+        private final List<Movie> movies;
 
-        public MovieAdapter(List<Filme> filmes) {
-            this.filmes = filmes;
+        public MovieAdapter(List<Movie> movies) {
+            this.movies = movies;
         }
 
         @Override
         public void onClick(int position) {
-            if (filmes.get(position).getId() <= 3) {
+            if (movies.get(position).getId() <= 3) {
                 Intent intent = new Intent(MainActivity.this, MovieActivity.class);
-                intent.putExtra("id", filmes.get(position).getId());
+                intent.putExtra("id", movies.get(position).getId());
                 startActivity(intent);
             }
         }
@@ -139,13 +138,13 @@ public class MainActivity extends AppCompatActivity implements CategoryTask.Cate
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
 
-            Filme filme = filmes.get(position);
-            new ImageDownloaderTask(holder.imageViewCover).execute(filme.getCoverURL());
+            Movie movie = movies.get(position);
+            new ImageDownloaderTask(holder.imageViewCover).execute(movie.getCoverURL());
         }
 
         @Override
         public int getItemCount() {
-            return filmes.size();
+            return movies.size();
         }
     }
 }

@@ -1,10 +1,10 @@
-package com.example.netflix.modelo;
+package com.example.netflix.model;
 
-public class Filme {
+public class Movie {
+
     private int id;
 
-
-    private String coverURL, titulo, desc, elenco; // Cover é a capa do filme
+    private String coverURL, title, desc, cast; // Cover é a capa do filme
 
     public int getId() {
         return id;
@@ -14,20 +14,20 @@ public class Filme {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getElenco() {
-        return elenco;
+    public String getCast() {
+        return cast;
     }
 
-    public void setElenco(String elenco) {
-        this.elenco = elenco;
+    public void setCast(String cast) {
+        this.cast = cast;
     }
 
     public String getDesc() {

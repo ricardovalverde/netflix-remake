@@ -9,12 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.netflix.modelo.Filme;
-import com.example.netflix.modelo.MovieDetail;
+import com.example.netflix.model.Movie;
+import com.example.netflix.model.MovieDetail;
 import com.example.netflix.util.ImageDownloaderTask;
 import com.example.netflix.util.MovieDetailTask;
 
@@ -34,9 +33,6 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
         setContentView(R.layout.activity_movie_details);
         getWindow().setStatusBarColor(getResources().getColor(R.color.black));
 
-
-
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
@@ -49,15 +45,12 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
         recyclerView = findViewById(R.id.recyclerview_similar);
         imgCover = findViewById(R.id.img_movie_details);
 
+        List<Movie> movies = new ArrayList<>();
 
-
-        List<Filme> filmes = new ArrayList<>();
-
-        movieAdapter = new MovieAdapter(filmes);
+        movieAdapter = new MovieAdapter(movies);
 
         recyclerView.setAdapter(movieAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -78,9 +71,9 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
     @Override
     public void onResult(MovieDetail movieDetail) {
 
-        txtTitulo.setText(movieDetail.getFilme().getTitulo());
+        txtTitulo.setText(movieDetail.getFilme().getTitle());
         txtDesc.setText(movieDetail.getFilme().getDesc());
-        txtElenco.setText(movieDetail.getFilme().getElenco());
+        txtElenco.setText(movieDetail.getFilme().getCast());
 
         ImageDownloaderTask imageDownloaderTask = new ImageDownloaderTask(imgCover);
         imageDownloaderTask.setShadows(true);
@@ -101,15 +94,15 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
 
     private class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
 
-        private final List<Filme> filmes;
+        private final List<Movie> movies;
 
-        public MovieAdapter(List<Filme> filmes) {
-            this.filmes = filmes;
+        public MovieAdapter(List<Movie> movies) {
+            this.movies = movies;
         }
 
-        public void setFilmes(List<Filme> filmes) {
-            this.filmes.clear();
-            this.filmes.addAll(filmes);
+        public void setFilmes(List<Movie> movies) {
+            this.movies.clear();
+            this.movies.addAll(movies);
         }
 
         @NonNull
@@ -120,13 +113,13 @@ public class MovieActivity extends AppCompatActivity implements MovieDetailTask.
 
         @Override
         public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
-            Filme filme = filmes.get(position);
-            new ImageDownloaderTask(holder.imageViewCover).execute(filme.getCoverURL());
+            Movie movie = movies.get(position);
+            new ImageDownloaderTask(holder.imageViewCover).execute(movie.getCoverURL());
         }
 
         @Override
         public int getItemCount() {
-            return filmes.size();
+            return movies.size();
         }
     }
 }

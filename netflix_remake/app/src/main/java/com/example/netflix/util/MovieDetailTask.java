@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.netflix.modelo.Filme;
-import com.example.netflix.modelo.MovieDetail;
+import com.example.netflix.model.Movie;
+import com.example.netflix.model.MovieDetail;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,19 +37,20 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
         this.movieDetailLoader = movieDetailLoader;
     }
 
-
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
         Context context = this.context.get();
         if (context != null)
             dialog = ProgressDialog.show(context, "Carregando", "", true);
-
     }
 
     @Override
     protected MovieDetail doInBackground(String... params) {
+
         String url_p = params[0];
+
         try {
             URL requestUrl = new URL(url_p);
 
@@ -61,6 +62,7 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
             if (codeResponse > 400) {
                 throw new IOException("Erro na conexão com servidor");
             }
+
             InputStream inputStream = urlConnection.getInputStream();
 
             BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -82,31 +84,33 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
     private MovieDetail getMovieDetail(JSONObject json) throws JSONException {
 
         int id = json.getInt("id");
+
         String title = json.getString("title");
         String desc = json.getString("desc");
         String cast = json.getString("cast");
         String coverUrl = json.getString("cover_url");
 
-        List<Filme> movies = new ArrayList<>();
+        List<Movie> movies = new ArrayList<>();
         JSONArray movieArray = json.getJSONArray("movie");
+
         for (int i = 0; i < movieArray.length(); i++) {
             JSONObject movie = movieArray.getJSONObject(i);
             String c = movie.getString("cover_url");
             int idSimilar = movie.getInt("id");
 
-            Filme similar = new Filme();
+            Movie similar = new Movie();
             similar.setId(idSimilar);
             similar.setCoverURL(c);
 
             movies.add(similar);
         }
 
-        Filme movie = new Filme();
+        Movie movie = new Movie();
         movie.setId(id);
         movie.setCoverURL(coverUrl);
-        movie.setTitulo(title);
+        movie.setTitle(title);
         movie.setDesc(desc);
-        movie.setElenco(cast);
+        movie.setCast(cast);
 
         return new MovieDetail(movie, movies);
     }
@@ -130,7 +134,6 @@ public class MovieDetailTask extends AsyncTask<String, Void, MovieDetail> {
         }
 
         return new String(byteArrayOutputStream.toByteArray());
-
 
     }
 

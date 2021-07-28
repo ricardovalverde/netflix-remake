@@ -37,12 +37,12 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... params) {
         String url_s = params[0];
         HttpURLConnection urlConnection = null;
+
         try {
             URL url = new URL(url_s);
             urlConnection = (HttpURLConnection) url.openConnection();
             int coderesponse = urlConnection.getResponseCode();
             if (coderesponse != 200) return null;
-
 
             InputStream inputStream = urlConnection.getInputStream();
             if (inputStream != null) {
@@ -71,8 +71,10 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
         if (imageView != null && bitmap != null) {
             if (shadows) {
                 LayerDrawable layerDrawable = (LayerDrawable) ContextCompat.getDrawable(imageView.getContext(), R.drawable.shadow);
+
                 if (layerDrawable != null) {
                     BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+
                     layerDrawable.setDrawableByLayerId(R.id.cover_drawble, bitmapDrawable);
                     imageView.setImageDrawable(layerDrawable);
                 }
